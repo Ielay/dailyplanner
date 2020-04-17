@@ -1,0 +1,2 @@
+someProp: "Some default value for test the config server"
+someAnotherProp: 123

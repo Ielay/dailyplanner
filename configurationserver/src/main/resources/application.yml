@@ -1,0 +1,12 @@
+# ConfigurationServer module configuration
+
+server:
+  port: 9999
+spring:
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: file:///home/lelay/programming/projects/dailyplanner/configurationserver/src/main/resources/config/dailyplanner

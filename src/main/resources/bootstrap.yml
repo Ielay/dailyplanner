@@ -1,0 +1,12 @@
+# Bootstrap config for DailyPlanner app
+
+spring:
+  application:
+    name:
+      dailyplanner
+  profiles:
+    active:
+      default
+  cloud:
+    config:
+      uri: http://localhost:9999
