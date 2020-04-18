@@ -26,12 +26,16 @@ public class TaskEntity {
     @Column(name = "description")
     private String description;
 
+    //UTC
+    //convert to timestamp?
     @Column(name = "deadline")
     private Date deadline;
 
     @Column(name = "done")
     private Boolean done;
 
-    @Column(name = "completion_date")
-    private Date completionDate;
+    //UTC
+    //convert to timestamp?
+    @Column(name = "completion_time")
+    private Date completionTime;
 }
