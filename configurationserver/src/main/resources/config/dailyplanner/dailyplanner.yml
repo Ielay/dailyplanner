@@ -1,2 +1,6 @@
-someProp: "Some default value for test the config server"
-someAnotherProp: 123
+# Configs of data source
+ds:
+  driver: "org.postgresql.Driver"
+  url: "jdbc:postgresql://localhost:5432/dailyplanner_db"
+  username: "dp_user"
+  password: "dp_pass"
