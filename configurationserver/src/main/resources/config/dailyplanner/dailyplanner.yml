@@ -4,3 +4,6 @@ ds:
   url: "jdbc:postgresql://localhost:5432/dailyplanner_db"
   username: "dp_user"
   password: "dp_pass"
+hibernate:
+  dialect: "org.hibernate.dialect.PostgreSQL95Dialect"
+  show_sql: "true"
