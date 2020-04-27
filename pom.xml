@@ -81,6 +81,14 @@
             <artifactId>liquibase-core</artifactId>
         </dependency>
 
+        <!-- Jetbrains annotations -->
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>18.0.0</version>
+        </dependency>
+
+
         <!-- Test dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>

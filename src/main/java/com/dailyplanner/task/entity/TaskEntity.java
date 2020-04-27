@@ -1,7 +1,6 @@
 package com.dailyplanner.task.entity;
 
 import javax.persistence.*;
-import java.util.Date;
 
 /**
  * The class represents some person task to do
@@ -24,18 +23,14 @@ public class TaskEntity {
     @Column(name = "description")
     private String description;
 
-    //UTC
-    //convert to timestamp?
     @Column(name = "deadline", nullable = false)
-    private Date deadline;
+    private Long deadline;
 
     @Column(name = "done", nullable = false)
     private Boolean done;
 
-    //UTC
-    //convert to timestamp?
     @Column(name = "completion_time")
-    private Date completionTime;
+    private Long completionTime;
 
     public Long getId() {
         return id;
@@ -61,11 +56,11 @@ public class TaskEntity {
         this.description = description;
     }
 
-    public Date getDeadline() {
+    public Long getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(Date deadline) {
+    public void setDeadline(Long deadline) {
         this.deadline = deadline;
     }
 
@@ -77,11 +72,11 @@ public class TaskEntity {
         this.done = done;
     }
 
-    public Date getCompletionTime() {
+    public Long getCompletionTime() {
         return completionTime;
     }
 
-    public void setCompletionTime(Date completionTime) {
+    public void setCompletionTime(Long completionTime) {
         this.completionTime = completionTime;
     }
 }
