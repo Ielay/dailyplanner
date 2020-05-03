@@ -17,13 +17,13 @@
                 <constraints nullable="false"/>
             </column>
             <column name="description" type="varchar(1023)"/>
-            <column name="deadline" type="timestamp">
+            <column name="deadline" type="bigint">
                 <constraints nullable="false"/>
             </column>
             <column name="done" type="boolean">
                 <constraints nullable="false"/>
             </column>
-            <column name="completion_time" type="timestamp"/>
+            <column name="completion_time" type="bigint"/>
         </createTable>
     </changeSet>
 

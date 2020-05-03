@@ -4,7 +4,7 @@ import com.dailyplanner.task.entity.TaskEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 
 /**
  * @author lelay
@@ -13,19 +13,19 @@ import javax.persistence.EntityManager;
 @Repository
 public class TaskRepositoryImpl implements TaskRepository {
 
-    private final EntityManager entityManager;
-
     @Autowired
-    public TaskRepositoryImpl(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
+    private EntityManagerFactory entityManagerFactory;
 
     @Override
     public void addTask(TaskEntity newTaskEntity) {
+        var entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
         try {
             entityManager.persist(newTaskEntity);
         } catch (Exception e) {
             throw new IllegalArgumentException("The entity already exist in DB", e);
+        } finally {
+            entityManager.getTransaction().commit();
         }
     }
 }

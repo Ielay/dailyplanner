@@ -33,8 +33,21 @@ public class TaskConfiguration {
     public Map<String, String> entityManagerProperties() {
         Map<String, String> properties = new HashMap<>();
 
+        properties.put("javax.persistence.jdbc.driver", env.getProperty("ds.driver"));
+        properties.put("javax.persistence.jdbc.user", env.getProperty("ds.username"));
+        properties.put("javax.persistence.jdbc.password", env.getProperty("ds.password"));
+        properties.put("javax.persistence.jdbc.url", env.getProperty("ds.url"));
+
+        //hibernate orm specific params
         properties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
         properties.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
+
+        //hikari connection pool params
+//        properties.put("hibernate.hikari.maximum_pool_size", env.getProperty("hibernate.hikari.maximum_pool_size"));
+//        properties.put("hibernate.hikari.pool_name", env.getProperty("hibernate.hikari.pool_name"));
+//        properties.put("hibernate.hikari.cachePrepStmts", "true");
+//        properties.put("hibernate.hikari.prepStmtCacheSize", "250");
+//        properties.put("hibernate.hikari.prepStmtCacheSqlLimit", "2048");
 
         return properties;
     }
@@ -54,7 +67,7 @@ public class TaskConfiguration {
 
     @Bean
     public SpringLiquibase liquibase(DataSource dataSource) {
-        SpringLiquibase liquibase = new SpringLiquibase();
+        var liquibase = new SpringLiquibase();
 
         liquibase.setChangeLog(env.getProperty("liquibase.changeLogFile"));
         liquibase.setDataSource(dataSource);

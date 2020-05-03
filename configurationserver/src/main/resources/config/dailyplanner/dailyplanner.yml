@@ -7,3 +7,6 @@ ds:
 hibernate:
   dialect: "org.hibernate.dialect.PostgreSQL95Dialect"
   show_sql: "true"
+#  hikari:
+#    maximum_pool_size: 5
+#    pool_name: "MyHikariCP"
