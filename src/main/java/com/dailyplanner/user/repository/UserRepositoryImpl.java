@@ -21,11 +21,11 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void addUser(UserEntity userEntity) {
+    public void addUser(UserEntity newUserEntity) {
         var entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         try {
-            entityManager.persist(entityManager);
+            entityManager.persist(newUserEntity);
         } catch (Exception exc) {
             throw new IllegalArgumentException("The entity already exist in DB", exc);
         } finally {
