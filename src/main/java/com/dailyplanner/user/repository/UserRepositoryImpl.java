@@ -1,6 +1,6 @@
-package com.dailyplanner.task.repository;
+package com.dailyplanner.user.repository;
 
-import com.dailyplanner.task.entity.TaskEntity;
+import com.dailyplanner.user.entity.UserEntity;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -8,38 +8,37 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManagerFactory;
 
 /**
- * @author lelay
- * @since 26.04.20
+ * @author petrov
  */
 @Repository
-public class TaskRepositoryImpl implements TaskRepository {
+public class UserRepositoryImpl implements UserRepository {
 
     private EntityManagerFactory entityManagerFactory;
 
     @Autowired
-    public TaskRepositoryImpl(EntityManagerFactory entityManagerFactory) {
+    public UserRepositoryImpl(EntityManagerFactory entityManagerFactory) {
         this.entityManagerFactory = entityManagerFactory;
     }
 
     @Override
-    public void addTask(TaskEntity newTaskEntity) {
+    public void addUser(UserEntity userEntity) {
         var entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         try {
-            entityManager.persist(newTaskEntity);
-        } catch (Exception e) {
-            throw new IllegalArgumentException("The entity already exist in DB", e);
+            entityManager.persist(entityManager);
+        } catch (Exception exc) {
+            throw new IllegalArgumentException("The entity already exist in DB", exc);
         } finally {
             entityManager.getTransaction().commit();
         }
     }
 
     @Override
-    public @Nullable TaskEntity findTaskById(long taskId) {
+    public @Nullable UserEntity findUserById(long userId) {
         var entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         try {
-            return entityManager.find(TaskEntity.class, taskId);
+            return entityManager.find(UserEntity.class, userId);
         } finally {
             entityManager.getTransaction().commit();
         }

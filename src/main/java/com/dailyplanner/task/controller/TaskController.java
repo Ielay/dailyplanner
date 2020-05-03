@@ -34,7 +34,7 @@ public class TaskController {
     }
 
     @GetMapping(path = "/{taskId}")
-    public ResponseEntity<TaskDTO> getTask(@PathVariable Long taskId) {
+    public ResponseEntity<TaskDTO> getTaskById(@PathVariable Long taskId) {
         try {
             TaskDTO taskDTO = taskService.getTaskById(taskId);
 
