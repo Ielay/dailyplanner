@@ -5,10 +5,7 @@ import com.dailyplanner.task.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author lelay
@@ -33,6 +30,21 @@ public class TaskController {
             return new ResponseEntity(HttpStatus.CREATED);
         } catch (IllegalArgumentException exc) {
             return new ResponseEntity(HttpStatus.CONFLICT);
+        }
+    }
+
+    @GetMapping(path = "/{taskId}")
+    public ResponseEntity<TaskDTO> getTask(@PathVariable Long taskId) {
+        try {
+            TaskDTO taskDTO = taskService.getTaskById(taskId);
+
+            if (taskDTO == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            } else {
+                return new ResponseEntity<>(taskDTO, HttpStatus.OK);
+            }
+        } catch (Exception exc) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 }

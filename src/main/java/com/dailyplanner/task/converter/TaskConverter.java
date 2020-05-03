@@ -21,4 +21,15 @@ public class TaskConverter {
 
         return entity;
     }
+
+    public TaskDTO toDto(TaskEntity entity) {
+        TaskDTO dto = new TaskDTO();
+        dto.title = entity.getTitle();
+        dto.description = entity.getDescription();
+        dto.deadline = entity.getDeadline();
+        dto.done = entity.getDone();
+        dto.completionTime = entity.getCompletionTime();
+
+        return dto;
+    }
 }

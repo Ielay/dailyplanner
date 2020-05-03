@@ -1,6 +1,7 @@
 package com.dailyplanner.task.repository;
 
 import com.dailyplanner.task.entity.TaskEntity;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author lelay
@@ -9,4 +10,6 @@ import com.dailyplanner.task.entity.TaskEntity;
 public interface TaskRepository {
 
     void addTask(TaskEntity newTaskEntity);
+
+    @Nullable TaskEntity findTaskById(long taskId);
 }

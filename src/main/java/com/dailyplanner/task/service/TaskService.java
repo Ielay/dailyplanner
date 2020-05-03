@@ -1,6 +1,7 @@
 package com.dailyplanner.task.service;
 
 import com.dailyplanner.task.dto.TaskDTO;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author lelay
@@ -9,4 +10,6 @@ import com.dailyplanner.task.dto.TaskDTO;
 public interface TaskService {
 
     void addTask(TaskDTO newTask);
+
+    @Nullable TaskDTO getTaskById(long taskId);
 }

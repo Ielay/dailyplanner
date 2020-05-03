@@ -9,4 +9,4 @@ spring:
     config:
       server:
         native:
-          search-locations: file:///home/lelay/programming/projects/dailyplanner/configurationserver/src/main/resources/config/dailyplanner
+          search-locations: file:///home/petrov/programming/non_work/dailyplanner/configurationserver/src/main/resources/config/dailyplanner
