@@ -25,4 +25,10 @@
         </createTable>
     </changeSet>
     
+    <changeSet id="create_foreign_key_for_tasks_table" author="lelay">
+        <addForeignKeyConstraint baseTableName="tasks" baseColumnNames="user_id"
+                                 referencedTableName="users" referencedColumnNames="id"
+                                 constraintName="fk_tasks_user_id"/>
+    </changeSet>
+    
 </databaseChangeLog>

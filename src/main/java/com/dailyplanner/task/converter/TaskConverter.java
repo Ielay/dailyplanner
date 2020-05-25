@@ -18,6 +18,7 @@ public class TaskConverter {
         entity.setDeadline(dto.deadline);
         entity.setDone(dto.done);
         entity.setCompletionTime(dto.completionTime);
+        entity.setUserId(dto.userId);
 
         return entity;
     }
@@ -29,6 +30,7 @@ public class TaskConverter {
         dto.deadline = entity.getDeadline();
         dto.done = entity.getDone();
         dto.completionTime = entity.getCompletionTime();
+        dto.userId = entity.getUserId();
 
         return dto;
     }

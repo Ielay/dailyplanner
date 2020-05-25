@@ -32,6 +32,9 @@ public class TaskEntity {
     @Column(name = "completion_time")
     private Long completionTime;
 
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
+
     public Long getId() {
         return id;
     }
@@ -78,5 +81,13 @@ public class TaskEntity {
 
     public void setCompletionTime(Long completionTime) {
         this.completionTime = completionTime;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

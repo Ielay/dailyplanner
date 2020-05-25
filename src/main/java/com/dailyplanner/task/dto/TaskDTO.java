@@ -17,4 +17,6 @@ public class TaskDTO {
 
     //timestamp
     public Long completionTime;
+
+    public Long userId;
 }

@@ -24,6 +24,9 @@
                 <constraints nullable="false"/>
             </column>
             <column name="completion_time" type="bigint"/>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 
