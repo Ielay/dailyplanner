@@ -2,10 +2,15 @@ package com.dailyplanner.task.controller;
 
 import com.dailyplanner.task.dto.TaskDTO;
 import com.dailyplanner.task.service.TaskService;
+import com.dailyplanner.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author lelay
@@ -17,12 +22,16 @@ public class TaskController {
 
     private final TaskService taskService;
 
+    private final UserService userService;
+
     @Autowired
-    public TaskController(TaskService taskService) {
+    public TaskController(TaskService taskService, UserService userService) {
         this.taskService = taskService;
+        this.userService = userService;
     }
 
     @PostMapping(path = "/add")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity addTask(@RequestBody TaskDTO newTask) {
         try {
             taskService.addTask(newTask);
@@ -33,18 +42,16 @@ public class TaskController {
         }
     }
 
-    @GetMapping(path = "/{taskId}")
-    public ResponseEntity<TaskDTO> getTaskById(@PathVariable Long taskId) {
+    @GetMapping(path = "/all")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity<List<TaskDTO>> getAllTasks(HttpServletRequest request) {
         try {
-            TaskDTO taskDTO = taskService.getTaskById(taskId);
+            long requestSenderId = userService.getRequestSenderId(request);
+            List<TaskDTO> userTasks = taskService.getAllTasks(requestSenderId);
 
-            if (taskDTO == null) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            } else {
-                return new ResponseEntity<>(taskDTO, HttpStatus.OK);
-            }
+            return new ResponseEntity<>(userTasks, HttpStatus.OK);
         } catch (Exception exc) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 }

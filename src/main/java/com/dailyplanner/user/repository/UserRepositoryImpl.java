@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 
 /**
  * @author petrov
@@ -39,6 +40,21 @@ public class UserRepositoryImpl implements UserRepository {
         entityManager.getTransaction().begin();
         try {
             return entityManager.find(UserEntity.class, userId);
+        } finally {
+            entityManager.getTransaction().commit();
+        }
+    }
+
+    @Override
+    public @Nullable UserEntity findUserByNickname(String nickname) {
+        var entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        try {
+            return entityManager.createQuery("SELECT u FROM UserEntity as u WHERE u.nickname = :nick", UserEntity.class)
+                    .setParameter("nick", nickname)
+                    .getSingleResult();
+        } catch (NoResultException exc) {
+            return null;
         } finally {
             entityManager.getTransaction().commit();
         }

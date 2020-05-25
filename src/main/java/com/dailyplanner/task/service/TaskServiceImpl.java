@@ -8,6 +8,9 @@ import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author lelay
  * @since 27.04.20
@@ -30,6 +33,18 @@ public class TaskServiceImpl implements TaskService {
         TaskEntity newTaskEntity = taskConverter.toEntity(newTask);
 
         taskRepository.addTask(newTaskEntity);
+    }
+
+    @Override
+    public @Nullable List<TaskDTO> getAllTasks(long userId) {
+        List<TaskEntity> taskEntities = taskRepository.findAllByUserId(userId);
+
+        List<TaskDTO> dtos = new ArrayList<>(taskEntities.size());
+        for (TaskEntity entity : taskEntities) {
+            dtos.add(taskConverter.toDto(entity));
+        }
+
+        return dtos;
     }
 
     @Override

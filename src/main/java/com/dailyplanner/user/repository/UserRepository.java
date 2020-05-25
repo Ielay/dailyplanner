@@ -11,4 +11,6 @@ public interface UserRepository {
     void addUser(UserEntity userEntity);
 
     @Nullable UserEntity findUserById(long userId);
+
+    @Nullable UserEntity findUserByNickname(String username);
 }

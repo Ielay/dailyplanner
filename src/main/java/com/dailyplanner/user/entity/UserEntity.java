@@ -1,5 +1,7 @@
 package com.dailyplanner.user.entity;
 
+import com.dailyplanner.user.converter.attribute.RoleConverter;
+
 import javax.persistence.*;
 
 /**
@@ -22,6 +24,10 @@ public class UserEntity {
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "role", nullable = false)
+    @Convert(converter = RoleConverter.class)
+    private Role role;
 
     public Long getId() {
         return id;
@@ -53,5 +59,13 @@ public class UserEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

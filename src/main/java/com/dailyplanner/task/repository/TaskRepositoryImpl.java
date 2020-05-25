@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManagerFactory;
+import java.util.List;
 
 /**
  * @author lelay
@@ -40,6 +41,19 @@ public class TaskRepositoryImpl implements TaskRepository {
         entityManager.getTransaction().begin();
         try {
             return entityManager.find(TaskEntity.class, taskId);
+        } finally {
+            entityManager.getTransaction().commit();
+        }
+    }
+
+    @Override
+    public List<TaskEntity> findAllByUserId(long userId) {
+        var entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        try {
+            return entityManager.createQuery("SELECT t FROM TaskEntity AS t WHERE t.userId = :userId", TaskEntity.class)
+                    .setParameter("userId", userId)
+                    .getResultList();
         } finally {
             entityManager.getTransaction().commit();
         }
