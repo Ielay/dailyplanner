@@ -63,4 +63,13 @@ public class TaskServiceImpl implements TaskService {
 
         return taskDTO;
     }
+
+    @Override
+    public void removeTask(Long taskId, long userId) {
+        int removedRows = taskRepository.removeTask(taskId, userId);
+
+        if (removedRows != 1) {
+            throw new IllegalArgumentException("Incorrect taskId " + taskId + "- the task was already removed");
+        }
+    }
 }

@@ -16,4 +16,6 @@ public interface TaskService {
     @Nullable TaskDTO getTaskById(long taskId);
 
     @Nullable List<TaskDTO> getAllTasks(long userId);
+
+    void removeTask(Long taskId, long userId);
 }

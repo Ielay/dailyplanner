@@ -55,4 +55,17 @@ public class TaskController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @DeleteMapping(path = "/{taskId}/delete")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity removeTask(HttpServletRequest request, @PathVariable Long taskId) {
+        try {
+            long requestSenderId = userService.getRequestSenderId(request);
+            taskService.removeTask(taskId, requestSenderId);
+
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception exc) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+    }
 }

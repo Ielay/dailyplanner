@@ -58,4 +58,18 @@ public class TaskRepositoryImpl implements TaskRepository {
             entityManager.getTransaction().commit();
         }
     }
+
+    @Override
+    public int removeTask(Long taskId, long userId) {
+        var entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        try {
+            return entityManager.createQuery("DELETE FROM TaskEntity as t WHERE t.id = :taskId AND t.userId = :userId")
+                    .setParameter("taskId", taskId)
+                    .setParameter("userId", userId)
+                    .executeUpdate();
+        } finally {
+            entityManager.getTransaction().commit();
+        }
+    }
 }

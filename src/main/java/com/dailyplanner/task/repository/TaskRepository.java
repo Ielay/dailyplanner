@@ -16,4 +16,6 @@ public interface TaskRepository {
     @Nullable TaskEntity findTaskById(long taskId);
 
     List<TaskEntity> findAllByUserId(long userId);
+
+    int removeTask(Long taskId, long userId);
 }
