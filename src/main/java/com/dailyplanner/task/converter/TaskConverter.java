@@ -13,6 +13,7 @@ public class TaskConverter {
 
     public TaskEntity toEntity(TaskDTO dto) {
         TaskEntity entity = new TaskEntity();
+        entity.setId(dto.taskId);
         entity.setTitle(dto.title);
         entity.setDescription(dto.description);
         entity.setDeadline(dto.deadline);
@@ -25,6 +26,7 @@ public class TaskConverter {
 
     public TaskDTO toDto(TaskEntity entity) {
         TaskDTO dto = new TaskDTO();
+        dto.taskId = entity.getId();
         dto.title = entity.getTitle();
         dto.description = entity.getDescription();
         dto.deadline = entity.getDeadline();

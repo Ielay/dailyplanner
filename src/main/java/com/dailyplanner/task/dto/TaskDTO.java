@@ -6,6 +6,8 @@ package com.dailyplanner.task.dto;
  */
 public class TaskDTO {
 
+    public Long taskId;
+
     public String title;
 
     public String description;
