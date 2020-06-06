@@ -32,8 +32,9 @@ public class TaskController {
 
     @PostMapping(path = "/add")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity addTask(@RequestBody TaskDTO newTask) {
+    public ResponseEntity addTask(HttpServletRequest request, @RequestBody TaskDTO newTask) {
         try {
+            newTask.userId = userService.getRequestSenderId(request);
             taskService.addTask(newTask);
 
             return new ResponseEntity(HttpStatus.CREATED);
