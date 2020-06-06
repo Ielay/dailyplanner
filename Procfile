@@ -1,0 +1,1 @@
+web: java -Dspring.cloud.config.uri='https://quiet-tor-21382.herokuapp.com' -jar target/dailyplanner-0.0.1-SNAPSHOT.jar
