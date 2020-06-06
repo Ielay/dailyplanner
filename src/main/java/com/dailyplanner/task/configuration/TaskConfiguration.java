@@ -1,6 +1,7 @@
 package com.dailyplanner.task.configuration;
 
 import liquibase.integration.spring.SpringLiquibase;
+import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +15,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.sql.DataSource;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,25 +33,46 @@ public class TaskConfiguration {
 
     @Bean("entityManagerProperties")
     public Map<String, String> entityManagerProperties() {
-        Map<String, String> properties = new HashMap<>();
+        try {
+            Map<String, String> properties = new HashMap<>();
 
-        properties.put("javax.persistence.jdbc.driver", env.getProperty("ds.driver"));
-        properties.put("javax.persistence.jdbc.user", env.getProperty("ds.username"));
-        properties.put("javax.persistence.jdbc.password", env.getProperty("ds.password"));
-        properties.put("javax.persistence.jdbc.url", env.getProperty("ds.url"));
+            properties.put("javax.persistence.jdbc.driver", env.getProperty("ds.driver"));
 
-        //hibernate orm specific params
-        properties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
-        properties.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
+            if (System.getenv("DATABASE_URL") != null) {
+                System.out.println("Env var is used");
 
-        //hikari connection pool params
+                URI dbUri = new URI(System.getenv("DATABASE_URL"));
+
+                String username = dbUri.getUserInfo().split(":")[0];
+                String password = dbUri.getUserInfo().split(":")[1];
+                String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
+
+                properties.put("javax.persistence.jdbc.user", username);
+                properties.put("javax.persistence.jdbc.password", password);
+                properties.put("javax.persistence.jdbc.url", dbUrl);
+            } else {
+                System.out.println("Config server properties are used");
+
+                properties.put("javax.persistence.jdbc.user", env.getProperty("ds.username"));
+                properties.put("javax.persistence.jdbc.password", env.getProperty("ds.password"));
+                properties.put("javax.persistence.jdbc.url", env.getProperty("ds.url"));
+            }
+
+            //hibernate orm specific params
+            properties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
+            properties.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
+
+            //hikari connection pool params
 //        properties.put("hibernate.hikari.maximum_pool_size", env.getProperty("hibernate.hikari.maximum_pool_size"));
 //        properties.put("hibernate.hikari.pool_name", env.getProperty("hibernate.hikari.pool_name"));
 //        properties.put("hibernate.hikari.cachePrepStmts", "true");
 //        properties.put("hibernate.hikari.prepStmtCacheSize", "250");
 //        properties.put("hibernate.hikari.prepStmtCacheSqlLimit", "2048");
 
-        return properties;
+            return properties;
+        } catch (Exception exc) {
+            throw new BeanCreationException("Exception while creating entity namager", exc);
+        }
     }
 
     @Bean
@@ -77,13 +100,34 @@ public class TaskConfiguration {
 
     @Bean
     public DataSource dataSource() {
-        DriverManagerDataSource ds = new DriverManagerDataSource();
+        try {
+            DriverManagerDataSource ds = new DriverManagerDataSource();
 
-        ds.setUsername(env.getProperty("ds.username"));
-        ds.setPassword(env.getProperty("ds.password"));
-        ds.setDriverClassName(env.getProperty("ds.driver"));
-        ds.setUrl(env.getProperty("ds.url"));
+            ds.setDriverClassName(env.getProperty("ds.driver"));
 
-        return ds;
+            if (System.getenv("DATABASE_URL") != null) {
+                System.out.println("Env var is used");
+
+                URI dbUri = new URI(System.getenv("DATABASE_URL"));
+
+                String username = dbUri.getUserInfo().split(":")[0];
+                String password = dbUri.getUserInfo().split(":")[1];
+                String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
+
+                ds.setUsername(username);
+                ds.setPassword(password);
+                ds.setUrl(dbUrl);
+            } else {
+                System.out.println("Config server properties are used");
+
+                ds.setUsername(env.getProperty("ds.username"));
+                ds.setPassword(env.getProperty("ds.password"));
+                ds.setUrl(env.getProperty("ds.url"));
+            }
+
+            return ds;
+        } catch (Exception exc) {
+            throw new BeanCreationException("Exception while creating dataSource", exc);
+        }
     }
 }
