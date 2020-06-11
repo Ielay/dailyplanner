@@ -18,4 +18,6 @@ public interface TaskService {
     @Nullable List<TaskDTO> getAllTasks(long userId);
 
     void removeTask(Long taskId, long userId);
+
+    void updateTask(Long taskId, long userId, TaskDTO taskDTO);
 }

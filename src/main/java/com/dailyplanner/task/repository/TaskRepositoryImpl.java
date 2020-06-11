@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManagerFactory;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author lelay
@@ -64,10 +66,38 @@ public class TaskRepositoryImpl implements TaskRepository {
         var entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         try {
-            return entityManager.createQuery("DELETE FROM TaskEntity as t WHERE t.id = :taskId AND t.userId = :userId")
+            return entityManager.createQuery("DELETE FROM TaskEntity AS t WHERE t.id = :taskId AND t.userId = :userId")
                     .setParameter("taskId", taskId)
                     .setParameter("userId", userId)
                     .executeUpdate();
+        } finally {
+            entityManager.getTransaction().commit();
+        }
+    }
+
+    @Override
+    public int updateTask(long taskId, long userId, Map<String, Object> fieldToValueMap) {
+        var entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        try {
+            String query = "UPDATE TaskEntity AS t SET %s WHERE t.id = %s AND t.userId = %s;";
+            List<String> conditions = fieldToValueMap.entrySet().stream()
+                    .map(entry ->
+                            (entry.getKey() + " = " +
+                            (entry.getValue().getClass() == String.class ?
+                                    "'" + entry.getValue() + "'" :
+                                    entry.getValue())
+                            )
+                    )
+                    .collect(Collectors.toList());
+
+            return entityManager.createQuery(
+                    String.format(query,
+                            String.join(" AND ", conditions),
+                            taskId,
+                            userId
+                    )
+            ).executeUpdate();
         } finally {
             entityManager.getTransaction().commit();
         }

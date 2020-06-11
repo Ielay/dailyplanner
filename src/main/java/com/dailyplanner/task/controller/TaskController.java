@@ -68,4 +68,17 @@ public class TaskController {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
     }
+
+    @PatchMapping(path = "/{taskId}")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity patchTask(HttpServletRequest request, @PathVariable Long taskId, @RequestBody TaskDTO fieldsToUpdate) {
+        try {
+            long requestSenderId = userService.getRequestSenderId(request);
+            taskService.updateTask(taskId, requestSenderId, fieldsToUpdate);
+
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception exc) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+    }
 }

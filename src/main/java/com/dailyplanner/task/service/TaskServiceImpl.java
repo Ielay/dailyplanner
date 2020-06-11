@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author lelay
@@ -71,5 +73,32 @@ public class TaskServiceImpl implements TaskService {
         if (removedRows != 1) {
             throw new IllegalArgumentException("Incorrect taskId " + taskId + "- the task was already removed");
         }
+    }
+
+    @Override
+    public void updateTask(Long taskId, long userId, TaskDTO taskDTO) {
+        Map<String, Object> fieldToValueMap = getAllFieldsWithValues(taskDTO);
+
+        if (fieldToValueMap.isEmpty()) {
+            return;
+        }
+
+        int updatedRows = taskRepository.updateTask(taskId, userId, fieldToValueMap);
+
+        if (updatedRows != 1) {
+            throw new IllegalArgumentException("Incorrect taskId " + taskId + "- such task doesn't exists");
+        }
+    }
+
+    private Map<String, Object> getAllFieldsWithValues(TaskDTO taskDTO) {
+        var map = new HashMap<String, Object>();
+
+        if (taskDTO.done != null) {
+            map.put("done", taskDTO.done);
+        }
+
+        //TODO: support another possible fields updates
+
+        return map;
     }
 }

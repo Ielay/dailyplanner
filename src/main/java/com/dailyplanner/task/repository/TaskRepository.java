@@ -4,6 +4,7 @@ import com.dailyplanner.task.entity.TaskEntity;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author lelay
@@ -18,4 +19,6 @@ public interface TaskRepository {
     List<TaskEntity> findAllByUserId(long userId);
 
     int removeTask(Long taskId, long userId);
+
+    int updateTask(long taskId, long userId, Map<String, Object> fieldToValueMap);
 }
