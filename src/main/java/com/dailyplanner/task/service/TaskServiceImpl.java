@@ -8,10 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author lelay
@@ -82,6 +79,7 @@ public class TaskServiceImpl implements TaskService {
         System.out.println(taskId);
         System.out.println(userId);
         System.out.println(taskDTO);
+        System.out.println(Arrays.toString(fieldToValueMap.entrySet().toArray()));
 
         if (fieldToValueMap.isEmpty()) {
             return;
