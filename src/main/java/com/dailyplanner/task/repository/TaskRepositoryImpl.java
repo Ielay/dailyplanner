@@ -80,7 +80,7 @@ public class TaskRepositoryImpl implements TaskRepository {
         var entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         try {
-            String query = "UPDATE TaskEntity AS t SET %s WHERE t.id = %s AND t.userId = %s;";
+            String query = "UPDATE TaskEntity AS t SET %s WHERE t.id = %s AND t.userId = %s";
             List<String> conditions = fieldToValueMap.entrySet().stream()
                     .map(entry ->
                             (entry.getKey() + " = " +
