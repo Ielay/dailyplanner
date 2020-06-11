@@ -79,6 +79,10 @@ public class TaskServiceImpl implements TaskService {
     public void updateTask(Long taskId, long userId, TaskDTO taskDTO) {
         Map<String, Object> fieldToValueMap = getAllFieldsWithValues(taskDTO);
 
+        System.out.println(taskId);
+        System.out.println(userId);
+        System.out.println(taskDTO);
+
         if (fieldToValueMap.isEmpty()) {
             return;
         }
