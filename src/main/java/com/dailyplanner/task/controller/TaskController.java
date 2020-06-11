@@ -78,7 +78,7 @@ public class TaskController {
 
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception exc) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return new ResponseEntity<>(exc, HttpStatus.CONFLICT);
         }
     }
 }
