@@ -91,12 +91,16 @@ public class TaskRepositoryImpl implements TaskRepository {
                     )
                     .collect(Collectors.toList());
 
+            String finalQuery = String.format(query,
+                    String.join(" AND ", conditions),
+                    taskId,
+                    userId
+            );
+
+            System.out.println(finalQuery);
+
             return entityManager.createQuery(
-                    String.format(query,
-                            String.join(" AND ", conditions),
-                            taskId,
-                            userId
-                    )
+                finalQuery
             ).executeUpdate();
         } finally {
             entityManager.getTransaction().commit();
